@@ -18,6 +18,7 @@ from ..common import BlobStorageClient
 class output:
     step1_output_filename: str
     col_count: int
+    row_count: int
 
 
 def main(filename: str) -> output:
@@ -47,6 +48,7 @@ def main(filename: str) -> output:
         #  In this example we are generating 100,000 random numbers and saving them to a CSV file.
         csv_file = pd.read_csv(input_data)
         col_count = csv_file.shape[1]
+        row_count = csv_file.shape[0]
         rand_data_step_1 = pd.DataFrame(
             np.random.randint(0, 99999, size=(1_00_000, col_count)),
             columns=csv_file.columns,
@@ -55,7 +57,7 @@ def main(filename: str) -> output:
 
         # Return the output of the function
         return asdict(
-            output(step1_output_filename=output_filename, col_count=col_count)
+            output(step1_output_filename=output_filename, col_count=col_count, row_count=row_count)
         )
     except Exception as e:
         logging.exception("EXCEPTION while running Step1", exc_info=e)

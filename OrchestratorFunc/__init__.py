@@ -4,13 +4,20 @@ import azure.durable_functions as df
 
 
 def orchestrator_function(context: df.DurableOrchestrationContext):
-    root_directory: str = context.get_input()
+    httpPostInput: str = context.get_input()
 
-    if not root_directory:
-        raise Exception("A root directory path with raw files is required as input")
+    if not httpPostInput:
+        raise Exception(
+            "A root directory, number of rows and number of columns per file is required as input"
+        )
 
-    files = yield context.call_activity("step0", root_directory)
+    # Generate input data for testing
+    data_gen_path = yield context.call_activity("GenerateData", httpPostInput)
+
+    # Pass to step 0 to get a list of files from folder to process
+    files = yield context.call_activity("step0", data_gen_path)
     tasks = []
+    # for each file in the list from step0, process step1, step2, step3 and step4 as SubOrchestrator
     for file in files:
         tasks.append(context.call_sub_orchestrator("SubOrchestratorFunc", file))
 

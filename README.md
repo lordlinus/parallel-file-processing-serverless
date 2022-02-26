@@ -31,25 +31,25 @@ Main advantages of using serverless technologies are:
     "Step2DataSubpath": "folder name for step 2 output",
     "Step3DataSubpath": "folder name for step 3 output",
     "Step4DataSubpath": "folder name for step 4 output",
-    "Step5DataSubpath": "folder name for step 5 output",
     "FUNCTIONS_WORKER_RUNTIME": "python"
   }
 }
 ```
 
 3. use vscode and follow steps to run this function [run locally](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python#run-the-function-locally)
-4. Upload some sample header data to `raw` folder
-e.g.
-```csv
-col1,col2,col3
-```
-5. Trigger execution of the function using the link. where `raw` is folder name with input files in `DataStorage` account and `DataContainer` container
+
+4. Trigger execution of durable function using curl where
+   1. `rawDataPath` is folder name to generate random files
+   2. `numFiles` number of random file to generate
+   3. `numRows` number of rows to generate in each file
 
 ```bash
-curl --location --request POST 'http://localhost:7071/api/orchestrators/OrchestratorFunc' \
+ curl --location --request POST 'http://localhost:7071/api/orchestrators/OrchestratorFunc' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "rawDataPath": "raw"
+    "rawDataPath": "raw",
+    "numFiles": "4",
+    "numRows": "10"
 }'
 ```
 

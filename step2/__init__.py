@@ -16,6 +16,7 @@ from ..common import BlobStorageClient
 class output:
     step2_output_filename: str
     col_count: int
+    row_count: int
 
 
 def main(name: dict) -> str:
@@ -47,11 +48,12 @@ def main(name: dict) -> str:
         csv_file = pd.read_csv(input_data)
         sample = csv_file.sample(n=100)
         col_count = sample.shape[1]
+        row_count = csv_file.shape[0]
         blob_client.upload_pd_dataframe(sample, output_filename)
 
         # Return the output of the function
         return asdict(
-            output(step2_output_filename=output_filename, col_count=col_count)
+            output(step2_output_filename=output_filename, col_count=col_count, row_count=row_count)
         )
     except Exception as e:
         logging.exception("EXCEPTION while running Step2", exc_info=e)

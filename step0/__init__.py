@@ -1,5 +1,6 @@
 # This function is not intended to be invoked directly. Instead it will be
 # triggered by an orchestrator function.
+# 
 
 import logging
 from ..common import BlobStorageClient
@@ -13,11 +14,11 @@ def main(rawDataPath: dict) -> list:
         datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
     )
     logging.info(
-        f"Python Step 0 function started at {utc_timestamp} with rawDataPath {rawDataPath['rawDataPath']}"
+        f"Python Step 0 function started at {utc_timestamp} with input args {rawDataPath}"
     )
 
     try:
-        rpath = rawDataPath["rawDataPath"]
+        f_path = rawDataPath["rawDataPath"]
         # Create the BlobServiceClient object which will be used to create a container client
         blob_service_client = BlobServiceClient.from_connection_string(
             os.getenv("DataStorage")
@@ -27,7 +28,7 @@ def main(rawDataPath: dict) -> list:
         )
         blob_client: BlobStorageClient = BlobStorageClient(container_client)
 
-        files = blob_client.get_csv_files(rpath)
+        files = blob_client.get_csv_files(f_path)
         logging.info("Files found: %s", files)
         return files
     except Exception as e:
