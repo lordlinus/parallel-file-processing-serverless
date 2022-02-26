@@ -39,9 +39,9 @@ Main advantages of using serverless technologies are:
 3. use vscode and follow steps to run this function [run locally](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python#run-the-function-locally)
 
 4. Trigger execution of durable function using curl where
-   1. `rawDataPath` is folder name to generate random files
-   2. `numFiles` number of random file to generate
-   3. `numRows` number of rows to generate in each file
+    - `rawDataPath` is folder name to generate random files
+    - `numFiles` number of random file to generate
+    - `numRows` number of rows to generate in each file
 
 ```bash
  curl --location --request POST 'http://localhost:7071/api/orchestrators/OrchestratorFunc' \
@@ -69,7 +69,7 @@ sample response
 
 you can query the status of the function using the status query uri `statusQueryGetUri`.
 
-5. Deploy this function using anyone of the methods. [Link](https://docs.microsoft.com/en-us/azure/azure-functions/functions-deployment-technologies)
+1. Deploy this function using anyone of the methods. [Link](https://docs.microsoft.com/en-us/azure/azure-functions/functions-deployment-technologies)
 
 ## References
 
