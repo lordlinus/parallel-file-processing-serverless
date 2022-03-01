@@ -3,16 +3,17 @@ Interaction with Azure Blob Storage.
 """
 
 import datetime
-from telnetlib import STATUS
 import time
 from io import BytesIO, TextIOWrapper
 
 import dateutil.parser as dt
 import pandas as pd
 from azure.storage.blob import BlobClient, ContainerClient
+from mimesis import Address, Datetime, Person
 
 DEFAULT_ENCODING = "UTF-8-SIG"
 STATUS = "Success"
+
 
 class BlobStorageClient:
     """
@@ -24,7 +25,7 @@ class BlobStorageClient:
 
     def get_csv_files(self, folder: str) -> list:
         """
-        Get all files in a folder.
+        Get all CSV files in a folder.
         """
         files = []
         for blob in self.__container_client.list_blobs(name_starts_with=folder):
@@ -70,6 +71,27 @@ class BlobStorageClient:
 
         source_blob: BlobClient = self.__container_client.get_blob_client(source_path)
         source_blob.delete_blob()
+
+    def gen_data(self, num_rows: int = 100) -> pd.DataFrame:
+        person = Person("en")
+        addess = Address()
+        datetime = Datetime()
+        output = [
+            {
+                "pii_name": person.full_name(),
+                "pii_email": person.email(),
+                "pii_mobile": person.telephone(),
+                "attribute1": person.age(),
+                "attribute2": person.blood_type(),
+                "attribute3": addess.city(),
+                "attribute4": addess.state(),
+                "attribute5": datetime.datetime().isoformat(),
+                "attribute6": person.nationality(),
+                "attribute7": addess.postal_code(),
+            }
+            for x in range(num_rows)
+        ]
+        return pd.DataFrame(output)
 
     def __wait_for_copy(self, blob: BlobClient):
         """

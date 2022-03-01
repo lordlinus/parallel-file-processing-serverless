@@ -39,7 +39,7 @@ Main advantages of using serverless technologies are:
 3. use vscode and follow steps to run this function [run locally](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python#run-the-function-locally)
 
 4. Trigger execution of durable function using curl where
-    - `rawDataPath` is folder name to generate random files
+    - `rawDataPath` is folder name to generate random fheailes
     - `numFiles` number of random file to generate
     - `numRows` number of rows to generate in each file
 

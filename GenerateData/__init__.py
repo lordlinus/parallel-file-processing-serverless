@@ -59,6 +59,7 @@ def main(httpPostInput: dict) -> list:
         # Generate input data for testing
         for i in range(num_files):
             df = pd.DataFrame(create_rows_mimesis(num_rows))
+            logging.info(f"Generating file {f_path}/{i}.csv")
             blob_client.upload_pd_dataframe(df, f"{f_path}/{i}.csv")
         return {"rawDataPath": f_path, "numFiles": num_files, "numRows": num_rows}
     except Exception as e:
